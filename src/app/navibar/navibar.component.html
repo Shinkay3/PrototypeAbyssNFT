@@ -1,3 +1,16 @@
+<ng-template #success let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"></h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body alert alert-success" style="text-align:center">
+        Success
+    </div>
+    <br>
+</ng-template>
+
 <ng-template #loginModal let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
@@ -21,6 +34,11 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-dark" (click)="login()">Save</button>
     </div>
+    <div>
+        <ul>
+            <li style="color: red;" *ngFor="let error of loginErrors">{{error}} </li>
+        </ul>
+    </div>
 </ng-template>
 
 <ng-template #signUpModal let-modal>
@@ -34,7 +52,7 @@
             <div>
                 <label>Username</label>
 
-                <input [(ngModel)]="newUser.userName" class="form-control" placeholder="" >        
+                <input [(ngModel)]="newUser.userName" (focusout)="checkForErrors()" class="form-control" placeholder="" >        
             </div>
             <br>
             <div>
@@ -51,23 +69,29 @@
             <br>
             <div>
                 <label>Email</label>
-                <input [(ngModel)]="newUser.email" class="form-control" placeholder="">
+                <input [(ngModel)]="newUser.email" (keypress)="checkForErrors()" class="form-control" placeholder="">
             </div>
             <br>
             <div>
                 <label>Password</label>
-                <input [(ngModel)]="newUser.password" class="form-control" placeholder="">
+                <input [(ngModel)]="newUser.password" (keypress)="checkForErrors()" class="form-control" placeholder="">
             </div>
             <br>
             <div>
                 <label>Repeat password</label>
-                <input [(ngModel)]="passwordRepeat" class="form-control" placeholder="">
+                <input [(ngModel)]="passwordRepeat" (focusout)="checkForErrors()" class="form-control" placeholder="">
             </div>
             <br>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    <div class="modal-footer" >
+        <button type="button" class="btn btn-outline-dark" (click)="createUser()">Sign Up</button>
     </div>
+    <div>
+        <ul>
+            <li style="color: red;" *ngFor="let error of signUpErrors">{{error}} </li>
+        </ul>
+    </div>
+
 </ng-template>
 
 <nav class="navbar-custom topnav" >
@@ -77,10 +101,10 @@
         <a [routerLink]="['home']" id="home" class="nav-link" (click)="triggerActive($event)" role="button" >Home </a>
         <a [routerLink]="['counter']" id="counter" class="nav-link" (click)="triggerActive($event)">Counter</a>
 
-        <a style="float:right" (click)="openSignUpModal(signUpModal)" class="nav-link" href="#" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <a style="float:right" *ngIf="!isLoggedIn" (click)="openSignUpModal(signUpModal)" class="nav-link" href="#" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
             SignUp
         </a>
-        <a style="float:right" (click)="openLoginModal(loginModal)" class="nav-link"  role="button" >
+        <a style="float:right" *ngIf="!isLoggedIn" (click)="openLoginModal(loginModal)" class="nav-link"  role="button" >
             Login
         </a>
         <a *ngIf="isLoggedIn" style="float:right" class="nav-link dropdown-toggle asdf" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

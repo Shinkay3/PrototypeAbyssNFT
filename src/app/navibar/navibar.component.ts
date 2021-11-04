@@ -51,6 +51,7 @@ export class NavibarComponent implements OnInit {
     //Check for authorization token (jwt) on init.
     async ngOnInit() 
     {
+        this.loginService.removeToken();
         if(this.loginService.getToken())
         {
             this.user = await this.loginService.loginAuthToken();
@@ -71,7 +72,7 @@ export class NavibarComponent implements OnInit {
     async checkForErrors()
     {        
         this.signUpErrors = [];
-
+        
         var uNameExist;    
         uNameExist = await this.signupService.checkUserName(this.newUser.userName,this.newUser.userNumber);
         
