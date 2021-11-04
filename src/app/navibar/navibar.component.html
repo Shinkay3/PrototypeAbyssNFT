@@ -1,0 +1,96 @@
+<ng-template #loginModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+        <div>
+            <label>Username or Email</label>
+            <input [(ngModel)]="user.userName" class="form-control" placeholder="" name="dp" >        
+        </div>
+        <br>
+        <div>
+            <label>Password</label>
+            <input [(ngModel)]="user.password" class="form-control" placeholder="" name="dp">
+        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="login()">Save</button>
+    </div>
+</ng-template>
+
+<ng-template #signUpModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+            <div>
+                <label>Username</label>
+
+                <input [(ngModel)]="newUser.userName" class="form-control" placeholder="" >        
+            </div>
+            <br>
+            <div>
+                <label>Usernumber</label>
+                <input [(ngModel)]="newUser.userNumber" (focusout)="editNumber()"  [maxlength]=4 (keypress)="onlyNumberKey($event)" [disabled]="!showMe" class="form-control" placeholder=""   > 
+            </div>
+            <br>
+            <div>
+
+                <input type="checkbox" (click)="randomUserNumber()" [(ngModel)]="showMe" placeholder="" >        
+                <label> &nbsp; Choose your own usernumber</label>
+
+            </div>
+            <br>
+            <div>
+                <label>Email</label>
+                <input [(ngModel)]="newUser.email" class="form-control" placeholder="">
+            </div>
+            <br>
+            <div>
+                <label>Password</label>
+                <input [(ngModel)]="newUser.password" class="form-control" placeholder="">
+            </div>
+            <br>
+            <div>
+                <label>Repeat password</label>
+                <input [(ngModel)]="passwordRepeat" class="form-control" placeholder="">
+            </div>
+            <br>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template>
+
+<nav class="navbar-custom topnav" >
+    <img src="/assets/images/LogoPlaceHolder2.png" class="header_logo">
+    
+    <div class="header_navwrap">
+        <a [routerLink]="['home']" id="home" class="nav-link" (click)="triggerActive($event)" role="button" >Home </a>
+        <a [routerLink]="['counter']" id="counter" class="nav-link" (click)="triggerActive($event)">Counter</a>
+
+        <a style="float:right" (click)="openSignUpModal(signUpModal)" class="nav-link" href="#" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            SignUp
+        </a>
+        <a style="float:right" (click)="openLoginModal(loginModal)" class="nav-link"  role="button" >
+            Login
+        </a>
+        <a *ngIf="isLoggedIn" style="float:right" class="nav-link dropdown-toggle asdf" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{user.userName}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+    </div>
+  </nav>
