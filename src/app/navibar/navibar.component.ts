@@ -22,9 +22,9 @@ import { ModalContainerComponent } from 'angular-bootstrap-md';
 export class NavibarComponent implements OnInit {
 
     public routeVar = "/counter";
-    user: User = new User();
-    newUser: User = new User();
-    showMe: boolean = false;
+    userLogin: User = new User();
+    userSignUp: User = new User();
+    manualUserNumber: boolean = false;
     signUpErrors: string[] = [];
     loginErrors: string[] = [];
     passwordRepeat:string;
@@ -42,10 +42,10 @@ export class NavibarComponent implements OnInit {
 
     constructor(private nbService: NavbarService, private modalService: NgbModal, private loginService: LoginService, private signupService: SignupService) 
     {
-        this.newUser.userName = "";
-        this.newUser.email = "";
-        this.newUser.password = "";
-        this.newUser.userNumber = "";
+        this.userSignUp.userName = "";
+        this.userSignUp.email = "";
+        this.userSignUp.password = "";
+        this.userSignUp.userNumber = "";
     }
 
     //Check for authorization token (jwt) on init.
@@ -54,8 +54,8 @@ export class NavibarComponent implements OnInit {
         this.loginService.removeToken();
         if(this.loginService.getToken())
         {
-            this.user = await this.loginService.loginAuthToken();
-            if(this.user != null)
+            this.userLogin = await this.loginService.loginAuthToken();
+            if(this.userLogin != null)
             {
                 this.isLoggedIn = true;
 
@@ -74,10 +74,10 @@ export class NavibarComponent implements OnInit {
         this.signUpErrors = [];
         
         var uNameExist;    
-        uNameExist = await this.signupService.checkUserName(this.newUser.userName,this.newUser.userNumber);
+        uNameExist = await this.signupService.checkUserName(this.userSignUp.userName,this.userSignUp.userNumber);
         
         var uEmailExist;
-        uEmailExist = await this.signupService.checkEmail(this.newUser.email);
+        uEmailExist = await this.signupService.checkEmail(this.userSignUp.email);
 
         if(uNameExist)
             this.signUpErrors.push("Username with usernumber already in use")
@@ -85,11 +85,11 @@ export class NavibarComponent implements OnInit {
         if(uEmailExist)
             this.signUpErrors.push("Email is already in use")
 
-        if(this.newUser.password != "" && this.newUser.password != this.passwordRepeat)
+        if(this.userSignUp.password != "" && this.userSignUp.password != this.passwordRepeat)
             this.signUpErrors.push("Passwords do not match");
 
-        if(this.newUser.userName != null)
-            if(this.newUser.userName != "" && this.newUser.userName.length < 3)
+        if(this.userSignUp.userName != null)
+            if(this.userSignUp.userName != "" && this.userSignUp.userName.length < 3)
                 this.signUpErrors.push("Username must be at least 3 characters long") 
 
         console.log(this.signUpErrors);
@@ -98,9 +98,9 @@ export class NavibarComponent implements OnInit {
     //Check if fields are empty in newUser
     checkForEmpty()
     {
-        for(var b in this.newUser)
+        for(var b in this.userSignUp)
         {
-            if(this.newUser[b] == [] || this.newUser[b] == "")
+            if(this.userSignUp[b] == [] || this.userSignUp[b] == "")
             {
                 this.signUpErrors.push(b +" is empty");
             }
@@ -117,9 +117,9 @@ export class NavibarComponent implements OnInit {
     editNumber() 
     {
         this.checkForErrors();
-        while (this.newUser.userNumber.length < 4)
+        while (this.userSignUp.userNumber.length < 4)
         {
-            this.newUser.userNumber = "0" + this.newUser.userNumber;
+            this.userSignUp.userNumber = "0" + this.userSignUp.userNumber;
         }
     }
 
@@ -130,7 +130,7 @@ export class NavibarComponent implements OnInit {
 
         if(this.signUpErrors.length == 0)
         {
-            await this.signupService.createUser(this.newUser).then(
+            await this.signupService.createUser(this.userSignUp).then(
                 response => console.log(response),
                 error =>this.signUpErrors.push(error.error)
             )
@@ -146,15 +146,15 @@ export class NavibarComponent implements OnInit {
     public async login()
     {
         this.loginErrors = [];
-        console.log(this.user.userName);
-        await this.loginService.login(this.user.userName,this.user.password).then(
+        console.log(this.userLogin.userName);
+        await this.loginService.login(this.userLogin.userName,this.userLogin.password).then(
             response => this.loginService.setToken(response),
             error => this.loginErrors.push(error.error)
         )
         if(this.loginService.getToken())
         {
-            this.user = await this.loginService.loginAuthToken();
-            console.log(this.user);
+            this.userLogin = await this.loginService.loginAuthToken();
+            console.log(this.userLogin);
             this.isLoggedIn = true;
             this.modalService.dismissAll();
             this.modalService.open(this.successModal);
@@ -167,7 +167,7 @@ export class NavibarComponent implements OnInit {
     {
         this.checkForErrors();
         this.randomUserNumber();
-        this.showMe = !this.showMe;
+        this.manualUserNumber = !this.manualUserNumber;
     }
 
     //When navbar item is clicked, active page is changed. This also changes the class of the element to show which page is active
@@ -197,13 +197,13 @@ export class NavibarComponent implements OnInit {
         var min = Math.ceil(0);
         var max = Math.floor(9999);
         var randNumber = Math.floor(Math.random() * (max - min + 1)) + 1;
-        this.newUser.userNumber = randNumber.toString();
-        while (this.newUser.userNumber.length < 4) 
+        this.userSignUp.userNumber = randNumber.toString();
+        while (this.userSignUp.userNumber.length < 4) 
         {
-            this.newUser.userNumber = ("0" + this.newUser.userNumber)
-            console.log(this.newUser.userNumber);
+            this.userSignUp.userNumber = ("0" + this.userSignUp.userNumber)
+            console.log(this.userSignUp.userNumber);
         }
-        console.log(this.newUser);
+        console.log(this.userSignUp);
     }
 
 

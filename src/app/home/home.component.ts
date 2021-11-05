@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import * as waxjs from "@waxio/waxjs/dist";
+
 
 @Component({
   selector: 'app-home',
@@ -8,8 +10,20 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   constructor() { }
+  wax:waxjs.WaxJS;
 
   ngOnInit(): void {
   }
+
+  async loginWax()
+  {
+    this.wax=new waxjs.WaxJS({rpcEndpoint: "https://wax.greymass.com",
+    tryAutoLogin: false
+    });
+
+    await this.wax.login();
+    console.log(this.wax);
+  }
+
 
 }
