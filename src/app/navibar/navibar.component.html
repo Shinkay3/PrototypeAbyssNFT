@@ -101,20 +101,33 @@
         <a [routerLink]="['home']" id="home" class="nav-link" (click)="triggerActive($event)" >Home </a>
         <a [routerLink]="['counter']" id="counter" class="nav-link" (click)="triggerActive($event)">Counter</a>
 
-        <a style="float:right" *ngIf="!isLoggedIn" (click)="openSignUpModal(signUpModal)" class="nav-link" id="navbarDropdown" aria-haspopup="true" aria-expanded="false">
+        <a style="float:right" *ngIf="!isLoggedIn" (click)="openSignUpModal(signUpModal)" class="nav-link" >
             SignUp
         </a>
-        <a style="float:right" *ngIf="!isLoggedIn" (click)="openLoginModal(loginModal)" class="nav-link"   >
+        <a style="float:right" *ngIf="!isLoggedIn" (click)="openLoginModal(loginModal)" class="nav-link"  >
             Login
         </a>
-        <a *ngIf="isLoggedIn" style="float:right" class="nav-link dropdown-toggle asdf" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{userLogin.userName}}
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" >Action</a>
-            <a class="dropdown-item" >Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" >Something else here</a>
+
+
+        <div ngbDropdown>
+            <a *ngIf="isLoggedIn" style="float:right" class="nav-link dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{userLogin.userName}}</a>
+            <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <a class="dropdown-item" ngbDropdownItem>Action - 1</a>
+                <a class="dropdown-item" ngbDropdownItem>Another Action</a>
+                <a class="dropdown-item" ngbDropdownItem>Something else is here</a>
+            </div>
         </div>
+        <div ngbDropdown>
+            <a *ngIf="isLoggedIn" style="float:right" class="nav-link dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>Blockchain Wallet</a>
+            <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <a class="dropdown-item" ngbDropdownItem>Action - 1</a>
+                <a class="dropdown-item" ngbDropdownItem>Another Action</a>
+                <a class="dropdown-item" ngbDropdownItem>Something else is here</a>
+            </div>
+        </div>
+
+
+    
+        
     </div>
   </nav>

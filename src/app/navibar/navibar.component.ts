@@ -28,14 +28,8 @@ export class NavibarComponent implements OnInit {
     signUpErrors: string[] = [];
     loginErrors: string[] = [];
     passwordRepeat:string;
-    errorTeller: number;
     token:string;
     isLoggedIn:boolean=false;
-    activeModal:NgbModal;
-    showOption:boolean = false;
-    manageDropdown : boolean = false;
-
-
 
     @ViewChild('success', {read: TemplateRef}) successModal: TemplateRef<any>;
 
@@ -51,14 +45,13 @@ export class NavibarComponent implements OnInit {
     //Check for authorization token (jwt) on init.
     async ngOnInit() 
     {
-        this.loginService.removeToken();
         if(this.loginService.getToken())
         {
             this.userLogin = await this.loginService.loginAuthToken();
-            if(this.userLogin != null)
+            if(this.userLogin.userName != null)
             {
+                console.log(this.userLogin);
                 this.isLoggedIn = true;
-
             }
             else
             {

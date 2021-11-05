@@ -23,7 +23,7 @@ export class LoginService {
     return this.http.get<string>("https://localhost:5001/api/User/Login?username="+encodeURIComponent(userName)+"&password="+password).toPromise();
   }
 
-  //Checks if the token is legitimate and still valid.
+  //Checks if the token is legitimate and still valid. If not it returns a empty User object.
   loginAuthToken():Promise<User>
   {
     return this.http.get<User>("https://localhost:5001/api/User/LoginAuthToken?token="+ this.getToken()).toPromise()
