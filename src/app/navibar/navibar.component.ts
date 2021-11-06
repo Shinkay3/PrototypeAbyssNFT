@@ -1,18 +1,10 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-
-import { Location } from '@angular/common';
 import { NavbarService } from '../navbar.service';
 import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-
 import { LoginService } from '../login.service';
 import { SignupService } from '../signup.service';
-
 import { User } from '../user.model';
-import { ElementRef, HostListener } from '@angular/core';
-import { Injectable } from '@angular/core';
-import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
-import { tokenName } from '@angular/compiler';
-import { ModalContainerComponent } from 'angular-bootstrap-md';
+import { WalletService } from '../wallet.service';
 
 @Component({
     selector: 'app-navibar',
@@ -31,10 +23,13 @@ export class NavibarComponent implements OnInit {
     token:string;
     isLoggedIn:boolean=false;
 
+
     @ViewChild('success', {read: TemplateRef}) successModal: TemplateRef<any>;
 
 
-    constructor(private nbService: NavbarService, private modalService: NgbModal, private loginService: LoginService, private signupService: SignupService) 
+    constructor(private nbService: NavbarService, private modalService: NgbModal,
+         private loginService: LoginService, private signupService: SignupService,
+         private walletService:WalletService) 
     {
         this.userSignUp.userName = "";
         this.userSignUp.email = "";
@@ -59,6 +54,16 @@ export class NavibarComponent implements OnInit {
                 this.isLoggedIn = false;
             }
         }
+    }
+
+    async addWallet()
+    {
+        await this.walletService.addWaxWallet();
+    }
+
+    logout()
+    {
+        this.loginService.removeToken();
     }
 
     //Check for errors/requirements on signup field.

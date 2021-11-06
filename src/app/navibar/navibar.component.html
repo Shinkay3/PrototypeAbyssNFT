@@ -110,17 +110,19 @@
 
 
         <div ngbDropdown>
-            <a *ngIf="isLoggedIn" style="float:right" class="nav-link dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{userLogin.userName}}</a>
+            <a *ngIf="isLoggedIn" style="float:right" class="nav-link dropdown-toggle"
+                 ngbDropdownToggle>{{userLogin.userName}}</a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <a class="dropdown-item" ngbDropdownItem>Action - 1</a>
-                <a class="dropdown-item" ngbDropdownItem>Another Action</a>
-                <a class="dropdown-item" ngbDropdownItem>Something else is here</a>
+                <a class="dropdown-item" ngbDropdownItem>My profile</a>
+                <a class="dropdown-item" ngbDropdownItem>Settings</a>
+                <a class="dropdown-item" ngbDropdownItem (click)="logout()" href="home">Logout</a>
             </div>
         </div>
         <div ngbDropdown>
-            <a *ngIf="isLoggedIn" style="float:right" class="nav-link dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>Blockchain Wallet</a>
+            <a *ngIf="isLoggedIn" style="float:right" class="nav-link dropdown-toggle"
+                ngbDropdownToggle>Blockchain Wallet</a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <a class="dropdown-item" ngbDropdownItem>Action - 1</a>
+                <a class="dropdown-item" ngbDropdownItem (click)="addWallet()">Add Wax wallet</a>
                 <a class="dropdown-item" ngbDropdownItem>Another Action</a>
                 <a class="dropdown-item" ngbDropdownItem>Something else is here</a>
             </div>
@@ -131,3 +133,13 @@
         
     </div>
   </nav>
+<br>
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+  <a class="test"> aaaa</a>
