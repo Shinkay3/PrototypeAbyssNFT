@@ -22,6 +22,7 @@ export class NavibarComponent implements OnInit {
     passwordRepeat:string;
     token:string;
     isLoggedIn:boolean=false;
+    waxWalletName:string;
 
 
     @ViewChild('success', {read: TemplateRef}) successModal: TemplateRef<any>;
@@ -40,17 +41,17 @@ export class NavibarComponent implements OnInit {
     //Check for authorization token (jwt) on init.
     async ngOnInit() 
     {
-        if(this.loginService.getToken())
+        if(this.loginService.getToken())    //If AuthToken is found.
         {
-            this.userLogin = await this.loginService.loginAuthToken();
-            if(this.userLogin.userName != null)
+            this.userLogin = await this.loginService.loginAuthToken(); //Authenticate Token on server.
+            if(this.userLogin.userName != null) //Authentication successfull returns username.
             {
                 console.log(this.userLogin);
                 this.isLoggedIn = true;
             }
             else
             {
-                this.loginService.removeToken();
+                this.loginService.removeToken(); //Authentication unsuccessfull returns null. Remove token.
                 this.isLoggedIn = false;
             }
         }
@@ -58,7 +59,7 @@ export class NavibarComponent implements OnInit {
 
     async addWallet()
     {
-        await this.walletService.addWaxWallet();
+        this.waxWalletName = await this.walletService.addWaxWallet();
     }
 
     logout()
