@@ -18,9 +18,9 @@ export class LoginService {
 
   tokenName:string = "token";
 
-  login(userName:string, password:string):Promise<string>
+  login(loginInfo:string, password:string):Promise<string>
   {
-    return this.http.get<string>("https://localhost:5001/api/User/Login?username="+encodeURIComponent(userName)+"&password="+password).toPromise();
+    return this.http.get<string>("https://localhost:5001/api/User/Login?loginInfo="+encodeURIComponent(loginInfo)+"&password="+password).toPromise();
   }
 
   //Checks if the token is legitimate and still valid. If not it returns a empty User object.

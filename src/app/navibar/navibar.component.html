@@ -22,17 +22,17 @@
         <form>
         <div>
             <label>Username or Email</label>
-            <input [(ngModel)]="userLogin.userName" class="form-control" placeholder="" name="dp" >        
+            <input [(ngModel)]="userLogin.userNameNumber" class="form-control" placeholder="" name="dp" >        
         </div>
         <br>
         <div>
             <label>Password</label>
-            <input type="password" [(ngModel)]="userLogin.password" class="form-control" placeholder="" name="dp">
+            <input type="password" [(ngModel)]="userLogin.password" (keyup.enter)="login()" class="form-control" placeholder="" name="dp">
         </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="login()">Save</button>
+        <button type="button" class="btn btn-outline-dark" (keyup.enter)="login()" (click)="login()">Save</button>
     </div>
     <div>
         <ul>
@@ -52,12 +52,12 @@
             <div>
                 <label>Username</label>
 
-                <input [(ngModel)]="userSignUp.userName" (focusout)="checkForErrors()" class="form-control" placeholder="" >        
+                <input [(ngModel)]="userName" (focusout)="checkForErrors()" class="form-control" placeholder="" >        
             </div>
             <br>
             <div>
                 <label>Usernumber</label>
-                <input [(ngModel)]="userSignUp.userNumber" (focusout)="editNumber()"  [maxlength]=4 (keypress)="onlyNumberKey($event)" [disabled]="!manualUserNumber" class="form-control" placeholder=""   > 
+                <input [(ngModel)]="userNumber" (focusout)="editNumber()"  [maxlength]=4 (keypress)="onlyNumberKey($event)" [disabled]="!manualUserNumber" class="form-control" placeholder=""   > 
             </div>
             <br>
             <div>
@@ -84,7 +84,7 @@
             <br>
     </div>
     <div class="modal-footer" >
-        <button type="button" class="btn btn-outline-dark" (click)="createUser()">Sign Up</button>
+        <button type="button" class="btn btn-outline-dark" (keyup.enter)="createUser()" (click)="createUser()">Sign Up</button>
     </div>
     <div>
         <ul>
@@ -111,7 +111,7 @@
 
         <div ngbDropdown>
             <a *ngIf="isLoggedIn" style="float:right" class="nav-link dropdown-toggle"
-                 ngbDropdownToggle>{{userLogin.userName}}</a>
+                 ngbDropdownToggle>{{userLogin.userNameNumber}}</a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                 <a class="dropdown-item" ngbDropdownItem>My profile</a>
                 <a class="dropdown-item" ngbDropdownItem>Settings</a>

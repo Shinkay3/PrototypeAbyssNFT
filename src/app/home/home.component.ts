@@ -20,6 +20,11 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  clearDailyQuest()
+  {
+    
+  }
+
   // async waxTransaction()
   // {
   //   const result = await this.walletService.wax.api.transact({

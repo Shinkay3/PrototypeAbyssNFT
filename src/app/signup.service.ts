@@ -21,7 +21,7 @@ export class SignupService {
   
   checkUserName(newUserName:string, newUserNumber:string):Promise<boolean>
   {
-    var a = this.http.get<boolean>('https://localhost:5001/api/User/CheckUserName?newusername=' + newUserName + '&newusernumber='+ newUserNumber).toPromise();
+    var a = this.http.get<boolean>('https://localhost:5001/api/User/CheckUserName?newusername=' + encodeURIComponent(newUserName +"#"+ newUserNumber)).toPromise();
     return a;
   }
 
@@ -32,8 +32,7 @@ export class SignupService {
   }
 
   createUser(user:User): Promise<User>
-  {
-    // user = new User();
+  {    
     return this.http.post<User>("https://localhost:5001/api/User/CreateUser",user, {
       headers : {
         'Content-Type': 'application/json'

@@ -14,6 +14,9 @@ import { WalletService } from '../wallet.service';
 export class NavibarComponent implements OnInit {
 
     public routeVar = "/counter";
+    userName: string;
+    userNumber: string;
+
     userLogin: User = new User();
     userSignUp: User = new User();
     manualUserNumber: boolean = false;
@@ -23,6 +26,7 @@ export class NavibarComponent implements OnInit {
     token:string;
     isLoggedIn:boolean=false;
     waxWalletName:string;
+    activePage:string;
 
 
     @ViewChild('success', {read: TemplateRef}) successModal: TemplateRef<any>;
@@ -32,10 +36,10 @@ export class NavibarComponent implements OnInit {
          private loginService: LoginService, private signupService: SignupService,
          private walletService:WalletService) 
     {
-        this.userSignUp.userName = "";
+        // this.userSignUp.userName = "";
         this.userSignUp.email = "";
         this.userSignUp.password = "";
-        this.userSignUp.userNumber = "";
+        // this.userSignUp.userNumber = "";
     }
 
     //Check for authorization token (jwt) on init.
@@ -44,9 +48,8 @@ export class NavibarComponent implements OnInit {
         if(this.loginService.getToken())    //If AuthToken is found.
         {
             this.userLogin = await this.loginService.loginAuthToken(); //Authenticate Token on server.
-            if(this.userLogin.userName != null) //Authentication successfull returns username.
+            if(this.userLogin.userNameNumber != null) //Authentication successfull returns username.
             {
-                console.log(this.userLogin);
                 this.isLoggedIn = true;
             }
             else
@@ -73,7 +76,7 @@ export class NavibarComponent implements OnInit {
         this.signUpErrors = [];
         
         var uNameExist;    
-        uNameExist = await this.signupService.checkUserName(this.userSignUp.userName,this.userSignUp.userNumber);
+        uNameExist = await this.signupService.checkUserName(this.userName,this.userNumber);
         
         var uEmailExist;
         uEmailExist = await this.signupService.checkEmail(this.userSignUp.email);
@@ -87,11 +90,10 @@ export class NavibarComponent implements OnInit {
         if(this.userSignUp.password != "" && this.userSignUp.password != this.passwordRepeat)
             this.signUpErrors.push("Passwords do not match");
 
-        if(this.userSignUp.userName != null)
-            if(this.userSignUp.userName != "" && this.userSignUp.userName.length < 3)
+        if(this.userName != null)
+            if(this.userName != "" && this.userName.length < 3)
                 this.signUpErrors.push("Username must be at least 3 characters long") 
 
-        console.log(this.signUpErrors);
     }
 
     //Check if fields are empty in newUser
@@ -116,9 +118,9 @@ export class NavibarComponent implements OnInit {
     editNumber() 
     {
         this.checkForErrors();
-        while (this.userSignUp.userNumber.length < 4)
+        while (this.userNumber.length < 4)
         {
-            this.userSignUp.userNumber = "0" + this.userSignUp.userNumber;
+            this.userNumber = "0" + this.userNumber;
         }
     }
 
@@ -129,6 +131,7 @@ export class NavibarComponent implements OnInit {
 
         if(this.signUpErrors.length == 0)
         {
+            this.userSignUp.userNameNumber = this.userName + "#" + this.userNumber;
             await this.signupService.createUser(this.userSignUp).then(
                 response => console.log(response),
                 error =>this.signUpErrors.push(error.error)
@@ -145,15 +148,13 @@ export class NavibarComponent implements OnInit {
     public async login()
     {
         this.loginErrors = [];
-        console.log(this.userLogin.userName);
-        await this.loginService.login(this.userLogin.userName,this.userLogin.password).then(
+        await this.loginService.login(this.userLogin.userNameNumber,this.userLogin.password).then(
             response => this.loginService.setToken(response),
             error => this.loginErrors.push(error.error)
         )
         if(this.loginService.getToken())
         {
             this.userLogin = await this.loginService.loginAuthToken();
-            console.log(this.userLogin);
             this.isLoggedIn = true;
             this.modalService.dismissAll();
             this.modalService.open(this.successModal);
@@ -173,10 +174,10 @@ export class NavibarComponent implements OnInit {
     triggerActive(e: Event) 
     {
         const pageId = (e.target as Element).id;
-        document.getElementById(this.nbService.activePage)?.classList.remove("active");
+        document.getElementById(this.activePage)?.classList.remove("active");
         var element = document.getElementById(pageId)?.classList.add("active");
 
-        this.nbService.activePage = pageId;
+        this.activePage = pageId;
     }
 
     openLoginModal(modal: any) 
@@ -196,13 +197,11 @@ export class NavibarComponent implements OnInit {
         var min = Math.ceil(0);
         var max = Math.floor(9999);
         var randNumber = Math.floor(Math.random() * (max - min + 1)) + 1;
-        this.userSignUp.userNumber = randNumber.toString();
-        while (this.userSignUp.userNumber.length < 4) 
+        this.userNumber = randNumber.toString();
+        while (this.userNumber.length < 4) 
         {
-            this.userSignUp.userNumber = ("0" + this.userSignUp.userNumber)
-            console.log(this.userSignUp.userNumber);
+            this.userNumber = ("0" + this.userNumber)
         }
-        console.log(this.userSignUp);
     }
 
 
