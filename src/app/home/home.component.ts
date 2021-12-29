@@ -1,6 +1,8 @@
 import { Component, ModuleWithComponentFactories, OnInit } from '@angular/core';
 import * as waxjs from "@waxio/waxjs/dist";
 import { WalletService } from '../wallet.service';
+import { QuestService } from '../quest.service';
+import { LoginService } from '../login.service';
 import {ExplorerApi, RpcApi} from "atomicassets"
 import {serialize, deserialize, ObjectSchema} from "atomicassets"
 
@@ -13,16 +15,40 @@ import {serialize, deserialize, ObjectSchema} from "atomicassets"
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private walletService:WalletService) { }
+  constructor(private walletService:WalletService, private questService:QuestService, private loginService:LoginService) { }
 
-
+  
 
   ngOnInit(): void {
   }
 
-  clearDailyQuest()
+  async clearDailyQuest()
   {
-    
+    var questData;
+    await this.questService.DailyQuestFinish(this.loginService.getToken(),this.walletService.wax.userAccount).then(
+      response => questData = response,
+      error => "Something went wrong"
+    )
+
+    const result = await this.walletService.wax.api.transact({
+      actions: [{
+        account: 'abyssnftgame',
+        name: 'dailyquest',
+        authorization: [{
+          actor: this.walletService.wax.userAccount,
+          permission: 'active',
+        }],
+        data: {
+          from:this.walletService.wax.userAccount,
+          sig:questData.signatureInHex,
+          data:questData.dataInHex
+        },
+      }]
+    }, {
+      blocksBehind: 3,
+      expireSeconds: 30,
+    });
+
   }
 
   // async waxTransaction()

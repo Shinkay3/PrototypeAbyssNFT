@@ -6,7 +6,8 @@ import * as waxjs from "@waxio/waxjs/dist";
 })
 export class WalletService {
 
-   wax:waxjs.WaxJS=new waxjs.WaxJS({rpcEndpoint: "https://wax.greymass.com",
+  wax:waxjs.WaxJS=new waxjs.WaxJS({rpcEndpoint: "https://wax.greymass.com",
+  //wax:waxjs.WaxJS=new waxjs.WaxJS({rpcEndpoint: "https://chain.wax.io/",
   //wax:waxjs.WaxJS=new waxjs.WaxJS({rpcEndpoint: "https://testnet.waxsweden.org",
   
   tryAutoLogin: true

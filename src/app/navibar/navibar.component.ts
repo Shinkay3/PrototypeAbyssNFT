@@ -1,5 +1,4 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NavbarService } from '../navbar.service';
 import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from '../login.service';
 import { SignupService } from '../signup.service';
@@ -32,8 +31,7 @@ export class NavibarComponent implements OnInit {
     @ViewChild('success', {read: TemplateRef}) successModal: TemplateRef<any>;
 
 
-    constructor(private nbService: NavbarService, private modalService: NgbModal,
-         private loginService: LoginService, private signupService: SignupService,
+    constructor(private modalService: NgbModal,private loginService: LoginService, private signupService: SignupService,
          private walletService:WalletService) 
     {
         // this.userSignUp.userName = "";
