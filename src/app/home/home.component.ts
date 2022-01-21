@@ -24,11 +24,18 @@ export class HomeComponent implements OnInit {
 
   async clearDailyQuest()
   {
+
+    await this.walletService.waxLogin();
+
+
+
     var questData;
     await this.questService.DailyQuestFinish(this.loginService.getToken(),this.walletService.wax.userAccount).then(
       response => questData = response,
       error => "Something went wrong"
     )
+    
+
 
     const result = await this.walletService.wax.api.transact({
       actions: [{

@@ -46,9 +46,11 @@ export class NavibarComponent implements OnInit {
         if(this.loginService.getToken())    //If AuthToken is found.
         {
             this.userLogin = await this.loginService.loginAuthToken(); //Authenticate Token on server.
+            console.log(await this.loginService.loginAuthToken());
             if(this.userLogin.userNameNumber != null) //Authentication successfull returns username.
             {
                 this.isLoggedIn = true;
+                this.waxWalletName = this.userLogin.waxWallet.walletID;
             }
             else
             {
@@ -56,11 +58,16 @@ export class NavibarComponent implements OnInit {
                 this.isLoggedIn = false;
             }
         }
+        //this.waxWalletName = localStorage.getItem("waxAccount");
+
     }
 
-    async addWallet()
+    async addWaxWallet()
     {
-        this.waxWalletName = await this.walletService.addWaxWallet();
+        var newToken = await this.walletService.addWaxAccount();
+        this.loginService.removeToken();
+        this.loginService.setToken(newToken);
+        window.location.reload();
     }
 
     logout()
@@ -153,10 +160,11 @@ export class NavibarComponent implements OnInit {
         if(this.loginService.getToken())
         {
             this.userLogin = await this.loginService.loginAuthToken();
+            this.waxWalletName = this.userLogin.waxWallet.walletID;
             this.isLoggedIn = true;
             this.modalService.dismissAll();
             this.modalService.open(this.successModal);
-
+            
         }
     }
 

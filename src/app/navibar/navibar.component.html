@@ -22,12 +22,12 @@
         <form>
         <div>
             <label>Username or Email</label>
-            <input [(ngModel)]="userLogin.userNameNumber" class="form-control" placeholder="" name="dp" >        
+            <input [(ngModel)]="userLogin.userNameNumber" class="form-control" name="user" >        
         </div>
         <br>
         <div>
             <label>Password</label>
-            <input type="password" [(ngModel)]="userLogin.password" (keyup.enter)="login()" class="form-control" placeholder="" name="dp">
+            <input type="password" [(ngModel)]="userLogin.password" (keyup.enter)="login()" class="form-control" name="password">
         </div>
         </form>
     </div>
@@ -122,7 +122,7 @@
             <a *ngIf="isLoggedIn" style="float:right" class="nav-link dropdown-toggle"
                 ngbDropdownToggle>Blockchain Wallet</a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <a *ngIf="waxWalletName==null" class="dropdown-item" ngbDropdownItem (click)="addWallet()">Add Wax wallet</a>
+                <a *ngIf="waxWalletName==null" class="dropdown-item" ngbDropdownItem (click)="addWaxWallet()">Add Wax wallet</a>
                 <a *ngIf="waxWalletName!=null" class="dropdown-item" ngbDropdownItem >{{waxWalletName}}</a>
 
                 <a class="dropdown-item" ngbDropdownItem>Another Action</a>
